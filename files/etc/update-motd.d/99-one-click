@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# Configured as part of the Operational.co 1-Click Image build process
+
+myip=$(hostname -I | awk '{print$1}')
+cat <<EOF
+********************************************************************************
+
+🎉 Welcome to your Operational.co 1-Click Droplet!
+
+This droplet is secured with UFW:
+  🔐 Ports open: 22 (SSH), 80 (HTTP), 443 (HTTPS), 5999 (MySQL)
+
+🛠 Your instance will ask for:
+  - An email address for Let's Encrypt and Web Push
+  - A domain name (e.g. yourdomain.acme.com)
+
+📂 Default paths:
+  - Web root:        /operational.co/app/dist
+  - Mysql passwords: /root/.digitalocean_password
+  - MySQL DB:        operational (user: operational)
+
+Need help? Visit https://docs.operational.co or visit our Discord https://discord.gg/BdTbsQhRzc
+
+Want to run the install script again? Run `sudo /usr/local/bin/prompt.sh`
+
+********************************************************************************
+EOF

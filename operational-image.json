@@ -1,0 +1,23 @@
+{
+  "variables": {
+    "do_token": "{{env `DIGITALOCEAN_TOKEN`}}"
+  },
+  "builders": [
+    {
+      "type": "file",
+      "target": "output-image"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "cloud-init status --wait"
+      ]
+    },
+    { "type": "shell", "script": "scripts/010-setup.sh" },
+    { "type": "shell", "script": "scripts/100-run.sh" },
+    { "type": "shell", "script": "scripts/900-cleanup.sh" },
+    { "type": "shell", "script": "scripts/999-img-check.sh" }
+  ]
+}

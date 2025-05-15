@@ -1,0 +1,42 @@
+{
+  "variables": {
+    "do_token": "{{env `DIGITALOCEAN_TOKEN`}}"
+  },
+  "builders": [
+    {
+      "type": "digitalocean",
+      "api_token": "{{user `do_token`}}",
+      "image": "ubuntu-22-04-x64",
+      "region": "nyc3",
+      "size": "s-1vcpu-1gb",
+      "ssh_username": "root"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "cloud-init status --wait"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "files/etc/",
+      "destination": "/etc/"
+    },
+    {
+      "type": "file",
+      "source": "files/var/",
+      "destination": "/var/"
+    },
+    {
+      "type": "file",
+      "source": "files/usr/local/bin/prompt.sh",
+      "destination": "/usr/local/bin/prompt.sh"
+    },
+    { "type": "shell", "script": "scripts/010-setup.sh" },
+    { "type": "shell", "script": "scripts/013-remove-logs.sh" },
+    { "type": "shell", "script": "scripts/900-cleanup.sh" },
+    { "type": "shell", "script": "scripts/999-img-check.sh" }
+  ]
+}

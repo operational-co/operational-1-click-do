@@ -1,0 +1,20 @@
+#!/bin/bash
+set -e
+exec > /var/log/prompt-onboot.log 2>&1
+
+echo "📦 Enabling prompt.sh to run on first SSH login..."
+
+# Add to .bashrc so prompt runs at login
+cat >> /root/.bashrc << 'EOM'
+
+# ----- Operational.co Setup Prompt -----
+if [ -f /usr/local/bin/prompt.sh ]; then
+  chmod +x /usr/local/bin/prompt.sh
+  /usr/local/bin/prompt.sh
+  # Optional: Remove from .bashrc so it runs only once
+  sed -i '/Operational.co Setup Prompt/,+4d' /root/.bashrc
+fi
+# ---------------------------------------
+EOM
+
+echo "✅ Setup prompt will run on first SSH login"
